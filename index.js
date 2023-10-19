@@ -49,12 +49,40 @@ async function run() {
       res.send(result)
     })
 
-    app.get('/google/:id',async(req,res)=>{
-      const id= parseInt(req.params.id)
-      const query={_id: id}
+    app.get(`/google/:id`,async(req,res)=>{
+      const id= req.params.id
+      const query={_id: new ObjectId(id)}
       const result=await googleCollaction.findOne(query)
       res.send(result)
     })
+
+    app.post('/google',async(req,res)=>{
+      const googleproduct=req.body
+      console.log(googleproduct);
+      const result=await googleCollaction.insertOne(googleproduct)
+      res.send(result)
+    })
+
+    app.put('/google/:id',async(req,res)=>{
+      const id=req.params.id
+      const updategoogle=req.body
+      const updatedoct={
+        $set:{
+          name:updategoogle.name,
+          brandName:updategoogle.brandName,
+          types:updategoogle.types,
+          rating:updategoogle.rating,
+          price:updategoogle.price,
+          photo:updategoogle.photo,
+          driscription:updategoogle.driscription,
+        }
+      }
+      const filter={_id:new ObjectId(id)}
+      const options = { upsert: true };
+      const result=await googleCollaction.updateOne(filter,updatedoct,options)
+      res.send(result)
+
+    });
 
 
 

@@ -39,6 +39,10 @@ async function run() {
     // await client.connect();
     const googleCollaction = client.db("googleDB").collection("google")
     const appleCollaction = client.db("appleDB").collection("apple")
+    const samsungCollaction = client.db("samsungDB").collection("samsung")
+    const intelCollaction = client.db("intelDB").collection("intel")
+    const sonyCollaction = client.db("sonyDB").collection("sony")
+    const acerCollaction = client.db("acergDB").collection("acer")
     
     app.get('/',(req,res)=>{
       res.send(brands)
@@ -124,6 +128,172 @@ async function run() {
       const filter={_id:new ObjectId(id)}
       const options = { upsert: true };
       const result=await appleCollaction.updateOne(filter,updatedoct,options)
+      res.send(result)
+
+    });
+
+    app.get('/samsung',async(req,res)=>{
+      const cursor= samsungCollaction.find()
+      const result=await cursor.toArray()
+      res.send(result)
+    })
+
+    app.get(`/samsung/:id`,async(req,res)=>{
+      const id= req.params.id
+      const query={_id: new ObjectId(id)}
+      const result=await samsungCollaction.findOne(query)
+      res.send(result)
+    })
+
+    app.post('/samsung',async(req,res)=>{
+      const googleproduct=req.body
+      console.log(googleproduct);
+      const result=await samsungCollaction.insertOne(googleproduct)
+      res.send(result)
+    })
+
+    
+    app.put('/samsung/:id',async(req,res)=>{
+      const id=req.params.id
+      const updategoogle=req.body
+      const updatedoct={
+        $set:{
+          name:updategoogle.name,
+          brandName:updategoogle.brandName,
+          types:updategoogle.types,
+          rating:updategoogle.rating,
+          price:updategoogle.price,
+          photo:updategoogle.photo,
+          driscription:updategoogle.driscription,
+        }
+      }
+      const filter={_id:new ObjectId(id)}
+      const options = { upsert: true };
+      const result=await samsungCollaction.updateOne(filter,updatedoct,options)
+      res.send(result)
+
+    });
+
+    app.get('/sony',async(req,res)=>{
+      const cursor= sonyCollaction.find()
+      const result=await cursor.toArray()
+      res.send(result)
+    })
+
+    app.get(`/sony/:id`,async(req,res)=>{
+      const id= req.params.id
+      const query={_id: new ObjectId(id)}
+      const result=await sonyCollaction.findOne(query)
+      res.send(result)
+    })
+
+    app.post('/sony',async(req,res)=>{
+      const googleproduct=req.body
+      console.log(googleproduct);
+      const result=await sonyCollaction.insertOne(googleproduct)
+      res.send(result)
+    })
+
+    
+    app.put('/sony/:id',async(req,res)=>{
+      const id=req.params.id
+      const updategoogle=req.body
+      const updatedoct={
+        $set:{
+          name:updategoogle.name,
+          brandName:updategoogle.brandName,
+          types:updategoogle.types,
+          rating:updategoogle.rating,
+          price:updategoogle.price,
+          photo:updategoogle.photo,
+          driscription:updategoogle.driscription,
+        }
+      }
+      const filter={_id:new ObjectId(id)}
+      const options = { upsert: true };
+      const result=await sonyCollaction.updateOne(filter,updatedoct,options)
+      res.send(result)
+
+    });
+    app.get('/intel',async(req,res)=>{
+      const cursor= intelCollaction.find()
+      const result=await cursor.toArray()
+      res.send(result)
+    })
+
+    app.get(`/intel/:id`,async(req,res)=>{
+      const id= req.params.id
+      const query={_id: new ObjectId(id)}
+      const result=await intelCollaction.findOne(query)
+      res.send(result)
+    })
+
+    app.post('/intel',async(req,res)=>{
+      const googleproduct=req.body
+      console.log(googleproduct);
+      const result=await intelCollaction.insertOne(googleproduct)
+      res.send(result)
+    })
+
+    
+    app.put('/intel/:id',async(req,res)=>{
+      const id=req.params.id
+      const updategoogle=req.body
+      const updatedoct={
+        $set:{
+          name:updategoogle.name,
+          brandName:updategoogle.brandName,
+          types:updategoogle.types,
+          rating:updategoogle.rating,
+          price:updategoogle.price,
+          photo:updategoogle.photo,
+          driscription:updategoogle.driscription,
+        }
+      }
+      const filter={_id:new ObjectId(id)}
+      const options = { upsert: true };
+      const result=await intelCollaction.updateOne(filter,updatedoct,options)
+      res.send(result)
+
+    });
+    app.get('/acer',async(req,res)=>{
+      const cursor= acerCollaction.find()
+      const result=await cursor.toArray()
+      res.send(result)
+    })
+
+    app.get(`/acer/:id`,async(req,res)=>{
+      const id= req.params.id
+      const query={_id: new ObjectId(id)}
+      const result=await acerCollaction.findOne(query)
+      res.send(result)
+    })
+
+    app.post('/acer',async(req,res)=>{
+      const googleproduct=req.body
+      console.log(googleproduct);
+      const result=await acerCollaction.insertOne(googleproduct)
+      res.send(result)
+    })
+
+    
+    app.put('/acer/:id',async(req,res)=>{
+      const id=req.params.id
+      const updategoogle=req.body
+      const updatedoct={
+        $set:{
+          name:updategoogle.name,
+          brandName:updategoogle.brandName,
+          types:updategoogle.types,
+          rating:updategoogle.rating,
+          price:updategoogle.price,
+          photo:updategoogle.photo,
+          driscription:updategoogle.driscription,
+        }
+      }
+      const filter={_id:new ObjectId(id)}
+      const options = { upsert: true };
+      const result=await acerCollaction.updateOne(filter,updatedoct,options)
       res.send(result)
 
     });

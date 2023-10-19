@@ -38,6 +38,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     const googleCollaction = client.db("googleDB").collection("google")
+    const appleCollaction = client.db("appleDB").collection("apple")
     
     app.get('/',(req,res)=>{
       res.send(brands)
@@ -80,6 +81,49 @@ async function run() {
       const filter={_id:new ObjectId(id)}
       const options = { upsert: true };
       const result=await googleCollaction.updateOne(filter,updatedoct,options)
+      res.send(result)
+
+    });
+
+
+    app.get('/apple',async(req,res)=>{
+      const cursor= appleCollaction.find()
+      const result=await cursor.toArray()
+      res.send(result)
+    })
+
+    app.get(`/apple/:id`,async(req,res)=>{
+      const id= req.params.id
+      const query={_id: new ObjectId(id)}
+      const result=await appleCollaction.findOne(query)
+      res.send(result)
+    })
+
+    app.post('/apple',async(req,res)=>{
+      const googleproduct=req.body
+      console.log(googleproduct);
+      const result=await appleCollaction.insertOne(googleproduct)
+      res.send(result)
+    })
+
+    
+    app.put('/apple/:id',async(req,res)=>{
+      const id=req.params.id
+      const updategoogle=req.body
+      const updatedoct={
+        $set:{
+          name:updategoogle.name,
+          brandName:updategoogle.brandName,
+          types:updategoogle.types,
+          rating:updategoogle.rating,
+          price:updategoogle.price,
+          photo:updategoogle.photo,
+          driscription:updategoogle.driscription,
+        }
+      }
+      const filter={_id:new ObjectId(id)}
+      const options = { upsert: true };
+      const result=await appleCollaction.updateOne(filter,updatedoct,options)
       res.send(result)
 
     });

@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+
+const brands=require('./brands.json')
+
 require('dotenv').config()
 
 
@@ -34,8 +37,23 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
-    app.post('/users',async(req,res)=>{
+    const googleCollaction = client.db("googleDB").collection("google")
+    
+    app.get('/',(req,res)=>{
+      res.send(brands)
+    })
 
+    app.get('/google',async(req,res)=>{
+      const cursor= googleCollaction.find()
+      const result=await cursor.toArray()
+      res.send(result)
+    })
+
+    app.get('/google/:id',async(req,res)=>{
+      const id= parseInt(req.params.id)
+      const query={_id: id}
+      const result=await googleCollaction.findOne(query)
+      res.send(result)
     })
 
 

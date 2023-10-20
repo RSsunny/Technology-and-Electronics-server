@@ -43,6 +43,7 @@ async function run() {
     const intelCollaction = client.db("intelDB").collection("intel")
     const sonyCollaction = client.db("sonyDB").collection("sony")
     const acerCollaction = client.db("acergDB").collection("acer")
+    const mycartCollaction = client.db("mycartDB").collection("mycart")
     
     app.get('/',(req,res)=>{
       res.send(brands)
@@ -271,7 +272,6 @@ async function run() {
 
     app.post('/acer',async(req,res)=>{
       const googleproduct=req.body
-      console.log(googleproduct);
       const result=await acerCollaction.insertOne(googleproduct)
       res.send(result)
     })
@@ -298,7 +298,25 @@ async function run() {
 
     });
 
+    app.get('/mycart',async(req,res)=>{
+      const cursor= mycartCollaction.find()
+      const result=await cursor.toArray()
+      res.send(result)
+    })
 
+    app.post('/mycart',async(req,res)=>{
+      const mycartproduct=req.body
+      const result=await mycartCollaction.insertOne(mycartproduct)
+      res.send(result)
+    })
+
+
+    app.delete("/mycart/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: id };
+      const result = await mycartCollaction.deleteOne(query);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
